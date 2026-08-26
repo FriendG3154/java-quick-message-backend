@@ -3,3 +3,15 @@ server:
 spring:
   application:
     name: child-message
+  # ---------- 数据源配置（连接 PostgreSQL） ----------
+  datasource:
+    # JDBC 连接地址：canting 远程数据库
+    url: jdbc:postgresql://101.133.137.118:5435/canting
+    # 数据库用户名
+    username: postgres
+    # 数据库密码
+    password: mdzf.canting.pg18
+    # JDBC 驱动类，PostgreSQL 固定用这个
+    driver-class-name: org.postgresql.Driver
+    # 指定连接池为 Druid（不写的话 Spring Boot 默认用 HikariCP）
+    type: com.alibaba.druid.pool.DruidDataSource

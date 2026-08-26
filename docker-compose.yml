@@ -12,9 +12,19 @@ services:
       - "9848:9848"
       - "9849:9849"
     volumes:
-      - nacos-data:/home/nacos/data
-      - nacos-logs:/home/nacos/logs
+      - nacos-data:/Users/gin/Desktop/JAVA/nacos/data
+      - nacos-logs:/Users/gin/Desktop/JAVA/nacos/logs
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --requirepass difyai123456
+    volumes:
+      - redis-data:/data
 
 volumes:
   nacos-data:
   nacos-logs:
+  redis-data:

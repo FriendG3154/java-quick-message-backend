@@ -1,0 +1,10 @@
+# ==================== Spring 核心配置 ====================
+spring:
+  cloud:
+    nacos:
+      # Nacos 注册中心地址，服务启动后会向这个地址注册自己
+      serverAddr: 127.0.0.1:8848
+  config:
+    import:
+      # 从 Nacos 配置中心拉取远程配置（optional 表示 Nacos 挂了也不影响启动）
+      - optional:nacos:${spring.application.name}.yaml

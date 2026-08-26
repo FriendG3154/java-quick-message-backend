@@ -1,0 +1,45 @@
+# ==================== Spring 核心配置 ====================
+spring:
+  cloud:
+    nacos:
+      # Nacos 注册中心地址，服务启动后会向这个地址注册自己
+      serverAddr: 127.0.0.1:8848
+  config:
+    import:
+      # 从 Nacos 配置中心拉取远程配置（optional 表示 Nacos 挂了也不影响启动）
+      - optional:nacos:${spring.application.name}.yaml
+  datasource:
+    # JDBC 连接地址：canting 远程数据库
+    url: jdbc:postgresql://101.133.137.118:5435/quick_message
+    # 数据库用户名
+    username: postgres
+    # 数据库密码
+    password: mdzf.canting.pg18
+    # JDBC 驱动类，PostgreSQL 固定用这个
+    driver-class-name: org.postgresql.Driver
+    # 指定连接池为 Druid（不写的话 Spring Boot 默认用 HikariCP）
+    type: com.alibaba.druid.pool.DruidDataSource
+  # ==================== MyBatis-Plus 配置 ====================
+mybatis-plus:
+    configuration:
+      # 开启驼峰命名自动映射：数据库字段 create_time -> Java 属性 createTime
+      map-underscore-to-camel-case: true
+      # 在控制台打印完整 SQL 及参数，方便开发调试（生产环境建议关掉）
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    global-config:
+      db-config:
+        # 主键策略：assign_uuid 表示由 MyBatis-Plus 在 Java 端生成 UUID 字符串
+        # canting 库所有表的主键都是 uuid 类型
+        id-type: assign_uuid
+aliyun:
+    sms:
+      region-id: ${ALIYUN_SMS_REGION_ID:xxxxxx}
+      access-key-id: ${ALIYUN_SMS_ACCESS_KEY_ID:!!!!}
+      access-key-secret: ${ALIYUN_SMS_ACCESS_KEY_SECRET:xxxxxx}
+      sign-name: ${ALIYUN_SMS_SIGN_NAME:xxxxxx}
+      template-code: ${ALIYUN_SMS_TEMPLATE_CODE:xxxxxx}
+jwt:
+    # HS256 签名密钥，必须不少于 32 字节，生产环境用 JWT_SECRET 环境变量注入
+  secret: ${JWT_SECRET:quick-message-jwt-secret-dev-0123456789abcdef}
+    # token 有效期（毫秒），默认 7 天
+  expire: ${JWT_EXPIRE:604800000}
