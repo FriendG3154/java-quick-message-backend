@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class WebSocket extends TextWebSocketHandler {
     private static final Map<String, WebSocketSession> SESSIONS = new ConcurrentHashMap<>();
+    private static final Map<String, Long> SESSIONS_LIVE = new ConcurrentHashMap<>();
     private final RedisService redisService;
     private final JwtTool jwtTool;
     public WebSocket(RedisService redisService, JwtTool jwtTool) {
@@ -47,7 +48,7 @@ public class WebSocket extends TextWebSocketHandler {
                 refreshSocket(session);
             }
             /// keepalive心跳机制
-            if ("{\"type\":\"KeepA\"}".equals(payload)) {
+            if ("{\"type\":\"KeepAlive\"}".equals(payload)) {
                 refreshSocket(session);
             }
 
@@ -104,10 +105,7 @@ public class WebSocket extends TextWebSocketHandler {
     /// 服务重启之后，会从redis里的userId重新发送一条数据是否在线的请求，判定是否在线，这个是用来接受是否在线的回复
     public void refreshSocket(WebSocketSession session){
         String userId  = (String) session.getAttributes().get("userId");
-        Boolean isExist =SESSIONS.containsKey(userId);//缓存是否存在
-        /// 给SESSIONS里put数据
-        if(!isExist){
-            SESSIONS.put((String) session.getAttributes().get("userId"), session);
-        }
+        SESSIONS.put(userId, session);
+        SESSIONS_LIVE.put(userId, System.currentTimeMillis());
     }
 }

@@ -2,8 +2,8 @@ package gin.controller;
 
 import gin.model.QmUser.QmUserAuthVO;
 import gin.model.QmUser.QmUserInput;
+import gin.model.QmUser.UserLoginInfo;
 import gin.model.SmsModel.SmsInput;
-import gin.model.common.ApiResponse;
 import gin.service.QmUserService;
 import gin.service.util.SmsService;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reponse.ApiResponse;
 
 @RestController
 @RequestMapping("/login")
@@ -36,9 +37,18 @@ public class Login {
     }
 
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestBody QmUserInput qmUserInput) {
+    public ApiResponse<UserLoginInfo> login(@RequestBody QmUserInput qmUserInput) {
         try{
             return ApiResponse.success(qmUserService.login(qmUserInput));
+        } catch (Exception e) {
+            return ApiResponse.error(500, e);
+        }
+    }
+
+    @PostMapping("/refreshToken")
+    public ApiResponse<UserLoginInfo> refreshToken(@RequestBody String token) {
+        try{
+            return ApiResponse.success(qmUserService.refreshToken(token));
         } catch (Exception e) {
             return ApiResponse.error(500, e);
         }

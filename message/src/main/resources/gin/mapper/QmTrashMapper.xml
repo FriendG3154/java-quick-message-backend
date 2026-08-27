@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gin.mapper.QmTrashMapper">
+
+    <resultMap id="BaseResultMap" type="gin.entity.QmTrash">
+            <id property="id" column="id" />
+            <result property="sourceId" column="source_id" />
+            <result property="sourceType" column="source_type" />
+            <result property="userId" column="user_id" />
+            <result property="originalData" column="original_data" />
+            <result property="expiredAt" column="expired_at" />
+            <result property="createdAt" column="created_at" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,source_id,source_type,user_id,original_data,expired_at,
+        created_at
+    </sql>
+</mapper>

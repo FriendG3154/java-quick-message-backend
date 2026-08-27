@@ -25,6 +25,16 @@
         SELECT qm_user.id as userId,phone,wx_name,wx_openid,qm_auth.name, qm_auth.voice_message
         FROM qm_user left join qm_user_auth on qm_user.id = qm_user_auth.user_id
         left join qm_auth on qm_user_auth.auth_id = qm_auth.id
-        WHERE qm_user.phone = #{phone}
+        <where>
+            <if test="phone!=null and phone !=''">
+                OR  qm_user.phone = #{phone}
+            </if>
+            <if test="userId!=null and userId !=''">
+            OR  qm_user.id = #{userId}
+            </if>
+            <if test="(phone == null or phone == '') and (userId == null or userId == '')">
+                OR 1 = 0
+            </if>
+        </where>
     </select>
 </mapper>

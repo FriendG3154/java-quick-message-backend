@@ -26,7 +26,7 @@ public class JwtTool {
     public String generateToken(QmUserAuthVO qmUserAuthVO) {
         long now = System.currentTimeMillis();
         var builder = Jwts.builder()
-                .subject(qmUserAuthVO.getUserId())
+                .subject(String.valueOf(qmUserAuthVO.getUserId()))
                 .claim("phone", qmUserAuthVO.getPhone())
                 .claim("wx_openid", qmUserAuthVO.getWx_openid())
                 .claim("wx_name", qmUserAuthVO.getWx_name())
@@ -34,6 +34,21 @@ public class JwtTool {
                 .claim("name", qmUserAuthVO.getName())
                 .issuedAt(new Date(now))
                 .expiration(new java.util.Date(now + jwtConfig.getExpire()))
+                .signWith(secretKey);
+        return builder.compact();
+    }
+
+    public String generateReFreshToken(QmUserAuthVO qmUserAuthVO) {
+        long now = System.currentTimeMillis();
+        var builder = Jwts.builder()
+                .subject(String.valueOf(qmUserAuthVO.getUserId()))
+                .claim("phone", qmUserAuthVO.getPhone())
+                .claim("wx_openid", qmUserAuthVO.getWx_openid())
+                .claim("wx_name", qmUserAuthVO.getWx_name())
+                .claim("voice_message", qmUserAuthVO.getVoice_message())
+                .claim("name", qmUserAuthVO.getName())
+                .issuedAt(new Date(now))
+                .expiration(new java.util.Date(now + jwtConfig.getExpire()*2))
                 .signWith(secretKey);
         return builder.compact();
     }

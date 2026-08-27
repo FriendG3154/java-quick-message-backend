@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gin.mapper.QmMessageMapper">
+
+    <resultMap id="BaseResultMap" type="gin.entity.QmMessage">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="type" column="type" />
+            <result property="title" column="title" />
+            <result property="content" column="content" />
+            <result property="template" column="template" />
+            <result property="charCount" column="char_count" />
+            <result property="duration" column="duration" />
+            <result property="isDeleted" column="is_deleted" />
+            <result property="isInTrash" column="is_in_trash" />
+            <result property="deletedAt" column="deleted_at" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,type,title,content,template,
+        char_count,duration,is_deleted,is_in_trash,deleted_at,
+        created_at,updated_at
+    </sql>
+</mapper>

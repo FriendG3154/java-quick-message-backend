@@ -8,7 +8,14 @@ import org.springframework.stereotype.Component;
 public class JwtConfig {
     private String secret;
     private long expire;
+    private long refreshExpire;
 
+    public long getRefreshExpire() {
+        return refreshExpire;
+    }
+    public void setRefreshExpire(long refreshExpire) {
+        this.refreshExpire = refreshExpire;
+    }
     public String getSecret() {
         return secret;
     }

@@ -4,6 +4,7 @@ import gin.entity.QmUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import gin.model.QmUser.QmUserAuthVO;
 import gin.model.QmUser.QmUserInput;
+import gin.model.QmUser.UserLoginInfo;
 
 /**
 * @author gin
@@ -12,5 +13,7 @@ import gin.model.QmUser.QmUserInput;
 */
 public interface QmUserService extends IService<QmUser> {
 
-    public String login(QmUserInput qmUserInput) throws Exception;
+    UserLoginInfo login(QmUserInput qmUserInput) throws Exception;
+
+    UserLoginInfo refreshToken(String token);
 }

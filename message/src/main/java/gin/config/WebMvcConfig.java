@@ -1,12 +1,12 @@
 package gin.config;
 
 import gin.filter.Interceptor;
-import org.springframework.context.annotation.Configuration;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 @Component
 public class WebMvcConfig implements WebMvcConfigurer {
     private final Interceptor interceptor;
@@ -16,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/login/**","/ws/**","/auth/**");
+        registry.addInterceptor(interceptor).addPathPatterns("/**");
     }
 
     @Override

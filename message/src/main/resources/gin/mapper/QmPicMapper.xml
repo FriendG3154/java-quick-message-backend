@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gin.mapper.QmPicMapper">
+
+    <resultMap id="BaseResultMap" type="gin.entity.QmPic">
+            <id property="id" column="id" />
+            <result property="userId" column="user_id" />
+            <result property="messageId" column="message_id" />
+            <result property="picUrl" column="pic_url" />
+            <result property="pid" column="pid" />
+            <result property="remark" column="remark" />
+            <result property="isDeleted" column="is_deleted" />
+            <result property="createdAt" column="created_at" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,message_id,pic_url,pid,remark,
+        is_deleted,created_at
+    </sql>
+</mapper>

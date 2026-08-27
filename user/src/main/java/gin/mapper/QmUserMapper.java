@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity gin.entity.QmUser
 */
 public interface QmUserMapper extends BaseMapper<QmUser> {
-    QmUserAuthVO selectUserWithAuth(@Param("phone") String phone);
+    QmUserAuthVO selectUserWithAuth(@Param("phone") String phone, @Param("userId") String userId);
 }
 
 

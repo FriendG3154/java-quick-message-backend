@@ -1,4 +1,4 @@
-package gin.model.common;
+package reponse;
 
 import java.io.Serializable;
 
