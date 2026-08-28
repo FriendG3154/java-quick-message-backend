@@ -12,6 +12,7 @@
         <module>user</module>
         <module>message</module>
         <module>common</module>
+        <module>gatewayCommon</module>
     </modules>
 
     <properties>

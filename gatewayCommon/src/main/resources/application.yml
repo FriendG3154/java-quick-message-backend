@@ -1,0 +1,47 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: gateway
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:difyai123456}
+  cloud:
+    nacos:
+      serverAddr: 127.0.0.1:8848
+    gateway:
+      # 显式路由:每条 = id + uri + predicates + filters
+      routes:
+        - id: child-user
+          uri: lb://child-user          # lb:// 走 Nacos 服务名 + 负载均衡
+          predicates:
+            - Path=/api/user/**         # 断言:匹配进来的请求路径
+          filters:
+            - StripPrefix=2             # 去掉前两段 /api/user,再转发
+
+        - id: child-message
+          uri: lb://child-message
+          predicates:
+            - Path=/api/message/**
+          filters:
+            - StripPrefix=2
+
+  # 关键:本模块从父 pom 继承了 mybatis-plus + druid,会触发 DataSource 自动装配
+  # 而网关不需要数据库,排除掉否则启动报错(见下方说明)
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+jwt:
+  secret: ${JWT_SECRET:quick-message-jwt-secret-dev-0123456789abcdef}
+  # token 有效期（毫秒），默认 7 天
+  expire: ${JWT_EXPIRE:604800000}
+  refreshExpire: ${JWT_REFRESH_EXPIRE:1209600000}
+  white-list:
+    - /api/user/login/**
+    - /api/user/auth/validate
+logging:
+  level:
+    org.springframework: debug

@@ -13,7 +13,7 @@ public abstract class AbstractAuthInterceptor implements HandlerInterceptor {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String token = request.getHeader("token");
+        String token = request.getHeader("authorization");
         if (token == null) {
             return writeUnauthorized(response, "密钥丢失");
         }

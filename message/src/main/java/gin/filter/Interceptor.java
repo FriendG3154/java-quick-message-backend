@@ -21,16 +21,6 @@ public class Interceptor extends AbstractAuthInterceptor {
 
     @Override
     protected boolean doAuthenticate(String token, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            ApiResponse<UserAuthVO> result = userAuthClient.validate(token);
-            if (result == null || result.getCode() != 200 || result.getData() == null) {
-                return writeUnauthorized(response, "密钥验证失败");
-            }
-            request.setAttribute("userId", result.getData().getUserId());
-            request.setAttribute("voiceMessage", result.getData().getVoice_message());
-            return true;
-        } catch (Exception e) {
-            return writeUnauthorized(response, "鉴权服务不可用");
-        }
+        return true;
     }
 }

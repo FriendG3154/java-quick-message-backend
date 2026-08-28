@@ -58,6 +58,8 @@ public class QmUserServiceImpl extends ServiceImpl<QmUserMapper, QmUser>
         String refreshToken = jwtTool.generateReFreshToken(result);
         Long expirer = jwtConfig.getExpire();
         Long refreshExpire = jwtConfig.getRefreshExpire();
+        redis.setRawString("login:token:" + result.getUserId(),token, expirer/1000 );
+        redis.setRawString("login:refreshToken:" + result.getUserId(),refreshToken, refreshExpire/1000 );
         UserLoginInfo userLoginInfo = new UserLoginInfo();
         userLoginInfo.setToken(token);
         userLoginInfo.setRefreshToken(refreshToken);
@@ -76,10 +78,14 @@ public class QmUserServiceImpl extends ServiceImpl<QmUserMapper, QmUser>
         QmUserAuthVO result = baseMapper.selectUserWithAuth(null,userId);
         if(result != null){
             UserLoginInfo userLoginInfo = new UserLoginInfo();
-            userLoginInfo.setToken(jwtTool.generateToken(result));
-            userLoginInfo.setRefreshToken(jwtTool.generateReFreshToken(result));
-            userLoginInfo.setExpire(jwtConfig.getExpire());
-            userLoginInfo.setRefreshExpire(jwtConfig.getRefreshExpire());
+            String newToken = jwtTool.generateToken(result);
+            userLoginInfo.setToken(newToken);
+            String newRefreshToken = jwtTool.generateReFreshToken(result);
+            redis.setRawString("login:token:" + userId, newToken, jwtConfig.getExpire() / 1000);
+            redis.setRawString("login:refreshToken:" + userId, newRefreshToken, jwtConfig.getRefreshExpire() / 1000);
+            userLoginInfo.setRefreshToken(newRefreshToken);
+            userLoginInfo.setExpire(jwtConfig.getExpire()); // Set expire
+            userLoginInfo.setRefreshExpire(jwtConfig.getRefreshExpire()); // Set refresh expire
             return userLoginInfo;
         }
         return null;

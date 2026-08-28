@@ -1,6 +1,7 @@
 package gin.service.util;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -10,10 +11,11 @@ import java.util.concurrent.TimeUnit;
 public class RedisService {
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisService(RedisTemplate<String, Object> redisTemplate) {
+    public RedisService(RedisTemplate<String, Object> redisTemplate, StringRedisTemplate stringRedisTemplate) {
         this.redisTemplate = redisTemplate;
+        this.stringRedisTemplate = stringRedisTemplate;
     }
-
+    private final StringRedisTemplate stringRedisTemplate;
     /**
      * 存值
      * @param key
@@ -22,6 +24,10 @@ public class RedisService {
      */
     public void setString(String key, String value, long seconds) {
         redisTemplate.opsForValue().set(key, value, seconds,TimeUnit.SECONDS);
+    }
+
+    public void setRawString(String key, String value, long seconds) {
+        stringRedisTemplate.opsForValue().set(key, value, seconds,TimeUnit.SECONDS);
     }
 
 
